@@ -3,6 +3,7 @@ using BancoEisen.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
+using BancoEisen.API.Models.Erros;
 
 namespace BancoEisen.API.Controllers.Templates
 {
@@ -38,20 +39,13 @@ namespace BancoEisen.API.Controllers.Templates
         public IActionResult Efetivar(TInformacoes operacaoInformacoes)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
-            try
-            {
-                var operacao = servico.Efetivar(operacaoInformacoes);
+            var operacao = servico.Efetivar(operacaoInformacoes);
 
-                var uri = Url.Action(nameof(Consultar), new { id = operacao.Id });
+            var uri = Url.Action(nameof(Consultar), new { id = operacao.Id });
 
-                return Created(uri, operacao.ToResource());
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Created(uri, operacao.ToResource());
         }
     }
 }

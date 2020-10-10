@@ -20,7 +20,7 @@ namespace BancoEisen.Controllers.Cadastros
         public Conta Cadastrar(ContaInformacoes informacoes)
         {
             if (!pessoaRepository.Any(informacoes.TitularId))
-                throw new ArgumentException("O titular informado é inválido");
+                throw new ArgumentException("O titular informado é inválido.");
 
             var conta = new Conta(informacoes.Agencia,
                                   informacoes.Numero,
@@ -38,7 +38,7 @@ namespace BancoEisen.Controllers.Cadastros
         public void Alterar(Conta conta)
         {
             if (!contaRepository.Any(conta.Id))
-                throw new ArgumentException("A pessoa informada é inválida");
+                throw new ArgumentException("A pessoa informada é inválida.");
 
             var contaSalva = contaRepository.Get(conta.Id);
 
@@ -52,7 +52,7 @@ namespace BancoEisen.Controllers.Cadastros
         public void Remover(int id)
         {
             if (!contaRepository.Any(id))
-                throw new ArgumentException("A conta informada é inválida");
+                throw new ArgumentException("A conta informada é inválida.");
 
             var conta = contaRepository.Get(id);
 

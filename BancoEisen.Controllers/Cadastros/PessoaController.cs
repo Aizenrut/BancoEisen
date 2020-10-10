@@ -20,7 +20,7 @@ namespace BancoEisen.Controllers.Cadastros
         public void Alterar(Pessoa pessoa)
         {
             if (!pessoaRepository.Any(pessoa.Id))
-                throw new ArgumentException("A pessoa informada é inválida");
+                throw new ArgumentException("A pessoa informada é inválida.");
 
             var pessoaSalva = pessoaRepository.Get(pessoa.Id);
 
@@ -36,10 +36,10 @@ namespace BancoEisen.Controllers.Cadastros
         public Pessoa Cadastrar(PessoaInformacoes informacoes)
         {
             if (informacoes.DataNascimento > DateTime.Now)
-                throw new ArgumentException("A data de nascimento não pode ser posterior a hoje");
+                throw new ArgumentException("A data de nascimento não pode ser posterior a hoje.");
 
             if (!usuarioRepository.Any(informacoes.UsuarioId))
-                throw new ArgumentException("O usuário informado é inválido");
+                throw new ArgumentException("O usuário informado é inválido.");
 
             var pessoa = new Pessoa(informacoes.Nome,
                                     informacoes.Sobrenome,
@@ -59,7 +59,7 @@ namespace BancoEisen.Controllers.Cadastros
         public void Remover(int id)
         {
             if (!pessoaRepository.Any(id))
-                throw new ArgumentException("A pessoa informada é inválida");
+                throw new ArgumentException("A pessoa informada é inválida.");
 
             var pessoa = pessoaRepository.Get(id);
 

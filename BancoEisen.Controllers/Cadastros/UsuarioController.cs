@@ -18,20 +18,15 @@ namespace BancoEisen.Controllers.Cadastros
         public void Alterar(Usuario usuario)
         {
             if (!usuarioRepository.Any(usuario.Id))
-                throw new ArgumentException("O usuário informado é inválido");
+                throw new ArgumentException("O usuário informado é inválido.");
 
             usuarioRepository.Update(usuario);
-        }
-
-        public bool Autenticar(UsuarioInformacoes usuarioInformacoes)
-        {
-            throw new NotImplementedException();
         }
 
         public Usuario Cadastrar(UsuarioInformacoes usuarioInformacoes)
         {
             if (!EstaDisponivel(usuarioInformacoes.Login))
-                throw new ArgumentException("O login informado já está em uso");
+                throw new InvalidOperationException("O login informado já está em uso.");
 
             var usuario = new Usuario(usuarioInformacoes.Login, usuarioInformacoes.Senha);
 
@@ -51,7 +46,7 @@ namespace BancoEisen.Controllers.Cadastros
         public void Remover(int usuarioId)
         {
             if (!usuarioRepository.Any(usuarioId))
-                throw new ArgumentException("O usuário informado é inválido");
+                throw new ArgumentException("O usuário informado é inválido.");
 
             var usuario = usuarioRepository.Get(usuarioId);
 

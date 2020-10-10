@@ -28,15 +28,15 @@ namespace BancoEisen.Controllers.Operacoes
         public Operacao Efetivar(OperacaoUnariaInformacoes saqueInformacoes)
         {
             if (saqueInformacoes.Valor <= 0)
-                throw new ArgumentException("O valor a sacar deve ser maior que zero");
+                throw new ArgumentException("O valor a sacar deve ser maior que zero.");
 
             if (!contaRepository.Any(saqueInformacoes.ContaId))
-                throw new ArgumentException($"A conta informada é inválida");
+                throw new ArgumentException($"A conta informada é inválida.");
 
             var conta = contaRepository.Get(saqueInformacoes.ContaId);
 
             if (conta.Saldo < saqueInformacoes.Valor)
-                throw new ArgumentException("O saldo da conta é insuficiente para realizar a operação");
+                throw new InvalidOperationException("O saldo da conta é insuficiente para realizar a operação.");
 
             var saque = new Saque(saqueInformacoes.Valor, saqueInformacoes.Observacao);
 

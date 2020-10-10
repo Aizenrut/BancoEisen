@@ -8,9 +8,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using BancoEisen.Models.Cadastros;
-using BancoEisen.Models.Operacoes;
 using BancoEisen.Data;
 using BancoEisen.Models.Abstracoes;
+using Microsoft.AspNetCore.Mvc;
+using BancoEisen.API.Filters;
 
 namespace BancoEisen.API
 {
@@ -25,7 +26,17 @@ namespace BancoEisen.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc(options =>
+            { 
+                options.EnableEndpointRouting = false;
+                options.Filters.Add<BadRequestFilter>(1);
+                options.Filters.Add<ErrorResponseFilter>(0);
+            });
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddDbContext<BancoEisenContext>(options =>
             {

@@ -35,7 +35,7 @@ namespace BancoEisen.Controllers.Operacoes
         public Operacao Efetivar(OperacaoBinariaInformacoes transferenciaInformacoes)
         {
             if (transferenciaInformacoes.Valor <= 0)
-                throw new ArgumentException("O valor a transferir deve ser maior que zero");
+                throw new ArgumentException("O valor a transferir deve ser maior que zero.");
 
             saqueController.Efetivar(new OperacaoUnariaInformacoes(transferenciaInformacoes.ContaOrigemId,
                                                                    transferenciaInformacoes.Valor,

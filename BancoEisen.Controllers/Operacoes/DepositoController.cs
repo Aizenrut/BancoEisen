@@ -28,10 +28,10 @@ namespace BancoEisen.Controllers.Operacoes
         public Operacao Efetivar(OperacaoUnariaInformacoes depositoInformacoes)
         {
             if (depositoInformacoes.Valor <= 0)
-                throw new ArgumentException("O valor a depositar deve ser maior que zero");
+                throw new ArgumentException("O valor a depositar deve ser maior que zero.");
 
             if (!contaRepository.Any(depositoInformacoes.ContaId))
-                throw new ArgumentException($"A conta informada é inválida");
+                throw new ArgumentException($"A conta informada é inválida.");
 
             var deposito = new Deposito(depositoInformacoes.Valor, depositoInformacoes.Observacao);
 

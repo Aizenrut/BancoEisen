@@ -4,6 +4,7 @@ using BancoEisen.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
+using BancoEisen.API.Models.Erros;
 
 namespace BancoEisen.API.Controllers.Templates
 {
@@ -40,52 +41,31 @@ namespace BancoEisen.API.Controllers.Templates
         public IActionResult Cadastrar(TInformacoes informacoes)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
-            try
-            {
-                var entidade = servico.Cadastrar(informacoes);
+            var entidade = servico.Cadastrar(informacoes);
 
-                var uri = Url.Action(nameof(Consultar), new { id = entidade.Id });
+            var uri = Url.Action(nameof(Consultar), new { id = entidade.Id });
 
-                return Created(uri, entidade.ToResource());
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Created(uri, entidade.ToResource());
         }
 
         [HttpPut]
         public IActionResult Alterar(TEntidade entidade)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
-            try
-            {
-                servico.Alterar(entidade);
+            servico.Alterar(entidade);
 
-                return Ok();
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Remover(int id)
         {
-            try
-            {
-                servico.Remover(id);
-                return NoContent();
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
+            servico.Remover(id);
+            return NoContent();
         }
     }
 }
