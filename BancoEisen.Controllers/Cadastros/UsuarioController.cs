@@ -1,61 +1,71 @@
 ﻿using BancoEisen.Controllers.Interfaces;
-using BancoEisen.Models.Informacoes;
+using BancoEisen.Data.Models.Filtros;
+using BancoEisen.Data.Models.Ordens;
+using BancoEisen.Data.Repositorios.Interfaces;
 using BancoEisen.Models.Cadastros;
-using BancoEisen.Data;
+using BancoEisen.Models.Informacoes;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BancoEisen.Controllers.Cadastros
 {
     public class UsuarioController : IUsuarioController
     {
-        private readonly IRepository<Usuario> usuarioRepository;
+        private readonly IUsuarioRepositorio usuarioRepositorio;
 
-        public UsuarioController(IRepository<Usuario> usuarioRepository)
+        public UsuarioController(IUsuarioRepositorio usuarioRepositorio)
         {
-            this.usuarioRepository = usuarioRepository;
+            this.usuarioRepositorio = usuarioRepositorio;
         }
 
-        public void Alterar(Usuario usuario)
+        public Usuario[] Todos(UsuarioFiltro filtro = null, Ordem ordenacao = null)
         {
-            if (!usuarioRepository.Any(usuario.Id))
-                throw new ArgumentException("O usuário informado é inválido.");
+            var query = usuarioRepositorio.All();
+            query = usuarioRepositorio.Filtrar(query, filtro);
+            query = usuarioRepositorio.Ordenar(query, ordenacao);
 
-            usuarioRepository.Update(usuario);
+            return query.ToArray();
         }
 
-        public Usuario Cadastrar(UsuarioInformacoes usuarioInformacoes)
+        public Usuario Consultar(int usuarioId)
+        {
+            return usuarioRepositorio.Get(usuarioId);
+        }
+
+        public async Task<Usuario> Cadastrar(UsuarioInformacoes usuarioInformacoes)
         {
             if (!EstaDisponivel(usuarioInformacoes.Login))
                 throw new InvalidOperationException("O login informado já está em uso.");
 
             var usuario = new Usuario(usuarioInformacoes.Login, usuarioInformacoes.Senha);
 
-            return usuarioRepository.Post(usuario);
+            await usuarioRepositorio.PostAsync(usuario);
+
+            return usuario;
         }
 
-        public Usuario Consultar(int usuarioId)
+        public async Task Alterar(Usuario usuario)
         {
-            return usuarioRepository.Get(usuarioId);
+            if (!usuarioRepositorio.Any(usuario.Id))
+                throw new ArgumentException("O usuário informado é inválido.");
+
+            await usuarioRepositorio.UpdateAsync(usuario);
+        }
+
+        public async Task Remover(int usuarioId)
+        {
+            if (!usuarioRepositorio.Any(usuarioId))
+                throw new ArgumentException("O usuário informado é inválido.");
+
+            var usuario = usuarioRepositorio.Get(usuarioId);
+
+            await usuarioRepositorio.DeleteAsync(usuario);
         }
 
         public bool EstaDisponivel(string usuarioLogin)
         {
-            return !usuarioRepository.Any(x => x.Login == usuarioLogin);
-        }
-
-        public void Remover(int usuarioId)
-        {
-            if (!usuarioRepository.Any(usuarioId))
-                throw new ArgumentException("O usuário informado é inválido.");
-
-            var usuario = usuarioRepository.Get(usuarioId);
-
-            usuarioRepository.Delete(usuario);
-        }
-
-        public Usuario[] Todos()
-        {
-            return usuarioRepository.All();
+            return usuarioRepositorio.EstaDisponivel(usuarioLogin);
         }
     }
 }

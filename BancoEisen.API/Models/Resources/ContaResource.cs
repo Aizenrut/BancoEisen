@@ -1,9 +1,7 @@
 ﻿using BancoEisen.Models.Cadastros;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace BancoEisen.API.Models.Cadastros
+namespace BancoEisen.API.Models.Resources
 {
     public struct ContaResource
     {
@@ -14,7 +12,6 @@ namespace BancoEisen.API.Models.Cadastros
         public string Titular { get; }
         public decimal Saldo { get; set; }
         public DateTime DataAbertura { get; }
-        public ICollection<string> Operacoes { get; }
 
         public ContaResource(Conta conta)
         {
@@ -25,7 +22,6 @@ namespace BancoEisen.API.Models.Cadastros
             Titular = $"/api/Pessoas/{conta.TitularId}";
             Saldo = conta.Saldo;
             DataAbertura = conta.DataAbertura;
-            Operacoes = conta.Operacoes.Select(operacao => $"/api/Operacoes/{operacao.Id}").ToArray();
         }
     }
 }

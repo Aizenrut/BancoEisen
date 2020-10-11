@@ -1,27 +1,45 @@
 ﻿using BancoEisen.Controllers.Interfaces;
 using BancoEisen.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System;
 using BancoEisen.API.Models.Erros;
+using BancoEisen.API.Controllers.Interfaces;
+using System.Threading.Tasks;
+using BancoEisen.Data.Models.Filtros.Interfaces;
+using BancoEisen.Models.Abstracoes;
+using BancoEisen.Data.Models.Ordens;
+using BancoEisen.API.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using BancoEisen.API.Models.Paginacoes;
+using System.Linq;
 
 namespace BancoEisen.API.Controllers.Templates
 {
-    public abstract class OperacoesControllerTamplate<TServico, TInformacoes> : ControllerBase
-        where TServico : IOperacaoController<TInformacoes>
+    public abstract class OperacoesControllerTamplate<TServico, TInformacoes, TFiltro> : ControllerBase, IOperacoesController<TInformacoes, TFiltro>
+        where TServico : IOperacaoController<TInformacoes, TFiltro>
         where TInformacoes : struct
+        where TFiltro : IFiltro<Operacao>
     {
-        private readonly TServico servico;
+        protected readonly TServico servico;
+        protected readonly IPaginacaoService paginacaoService;
+        protected readonly IHttpContextAccessor contextAccessor;
 
-        public OperacoesControllerTamplate(TServico servico)
+        public OperacoesControllerTamplate(TServico servico, IPaginacaoService paginacaoService, IHttpContextAccessor contextAccessor)
         {
             this.servico = servico;
+            this.paginacaoService = paginacaoService;
+            this.contextAccessor = contextAccessor;
         }
 
         [HttpGet]
-        public IActionResult Todos()
+        public IActionResult Todos([FromQuery] TFiltro filtro,
+                                   [FromQuery] Ordem ordem,
+                                   [FromQuery] Paginacao paginacao)
         {
-            return Ok(servico.Todos().Select(operacao => operacao.ToResource()));
+            var todos = servico.Todos(filtro, ordem).Select(x => x.ToResource())
+                                                    .ToArray();
+
+            return Ok(paginacaoService.GerarPagina(contextAccessor.HttpContext.GetRouteData().Values["controller"].ToString(), todos, paginacao));
         }
 
         [HttpGet("{id}")]
@@ -36,12 +54,12 @@ namespace BancoEisen.API.Controllers.Templates
         }
 
         [HttpPost]
-        public IActionResult Efetivar(TInformacoes operacaoInformacoes)
+        public async Task<IActionResult> Efetivar(TInformacoes operacaoInformacoes)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ErrorResponse.From(ModelState));
 
-            var operacao = servico.Efetivar(operacaoInformacoes);
+            var operacao = await servico.Efetivar(operacaoInformacoes);
 
             var uri = Url.Action(nameof(Consultar), new { id = operacao.Id });
 

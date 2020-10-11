@@ -1,23 +1,42 @@
 ﻿using BancoEisen.Controllers.Interfaces;
 using BancoEisen.Models.Informacoes;
-using BancoEisen.Models.Enumeracoes;
 using BancoEisen.Models.Abstracoes;
-using BancoEisen.Models.Cadastros;
 using BancoEisen.Models.Operacoes;
-using BancoEisen.Data;
 using System;
+using BancoEisen.Data.Repositorios.Interfaces;
+using System.Threading.Tasks;
+using BancoEisen.Data.Models.Filtros;
+using BancoEisen.Data.Models.Ordens;
+using System.Linq;
+using BancoEisen.Data.Services.Interfaces;
 
 namespace BancoEisen.Controllers.Operacoes
 {
     public class SaqueController : ISaqueController
     {
-        private IRepository<Conta> contaRepository;
-        private IRepository<Operacao> operacaoRepository;
+        private readonly IContaRepositorio contaRepository;
+        private readonly IOperacaoRepositorio operacaoRepository;
+        private readonly IFiltragemService<Operacao, SaqueFiltro> filtragemService;
+        private readonly IOrdenacaoService<Operacao> ordenacaoService;
 
-        public SaqueController(IRepository<Conta> contaRepository, IRepository<Operacao> operacaoRepository)
+        public SaqueController(IContaRepositorio contaRepository,
+                               IOperacaoRepositorio operacaoRepository,
+                               IFiltragemService<Operacao, SaqueFiltro> filtragemService,
+                               IOrdenacaoService<Operacao> ordenacaoService)
         {
             this.contaRepository = contaRepository;
             this.operacaoRepository = operacaoRepository;
+            this.filtragemService = filtragemService;
+            this.ordenacaoService = ordenacaoService;
+        }
+
+        public Operacao[] Todos(SaqueFiltro filtro, Ordem ordem)
+        {
+            var query = operacaoRepository.All();
+            query = filtragemService.Filtrar(query, filtro);
+            query = ordenacaoService.Ordenar(query, ordem);
+
+            return query.ToArray();
         }
 
         public Operacao Consultar(int saqueId)
@@ -25,7 +44,7 @@ namespace BancoEisen.Controllers.Operacoes
             return operacaoRepository.Get(saqueId);
         }
 
-        public Operacao Efetivar(OperacaoUnariaInformacoes saqueInformacoes)
+        public async Task<Operacao> Efetivar(OperacaoUnariaInformacoes saqueInformacoes)
         {
             if (saqueInformacoes.Valor <= 0)
                 throw new ArgumentException("O valor a sacar deve ser maior que zero.");
@@ -39,18 +58,13 @@ namespace BancoEisen.Controllers.Operacoes
                 throw new InvalidOperationException("O saldo da conta é insuficiente para realizar a operação.");
 
             var saque = new Saque(saqueInformacoes.Valor, saqueInformacoes.Observacao);
+            await operacaoRepository.PostAsync(saque);
 
             conta.Saldo -= saqueInformacoes.Valor;
             conta.Operacoes.Add(saque);
+            await contaRepository.UpdateAsync(conta);
 
-            contaRepository.Update(conta);
-
-            return operacaoRepository.Post(saque);
-        }
-
-        public Operacao[] Todos()
-        {
-            return operacaoRepository.Where(operacao => operacao.TipoOperacao == TipoOperacao.Saque);
+            return saque;
         }
     }
 }

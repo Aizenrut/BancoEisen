@@ -15,6 +15,7 @@ namespace BancoEisen.Models.Cadastros
         [Required]
         [MinLength(8)]
         [MaxLength(72)]
+        [DataType(DataType.Password)]
         public string Senha { get; set; }
 
         public Usuario()

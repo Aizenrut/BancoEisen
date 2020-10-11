@@ -16,8 +16,5 @@ namespace BancoEisen.Models.Informacoes
 
         [Required]
         public int TitularId { get; set; }
-
-        [DefaultValue(0)]
-        public decimal Saldo { get; set; }
     }
 }

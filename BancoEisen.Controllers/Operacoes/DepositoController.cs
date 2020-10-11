@@ -1,23 +1,42 @@
 ﻿using BancoEisen.Controllers.Interfaces;
 using BancoEisen.Models.Informacoes;
-using BancoEisen.Models.Enumeracoes;
 using BancoEisen.Models.Abstracoes;
-using BancoEisen.Models.Cadastros;
 using BancoEisen.Models.Operacoes;
-using BancoEisen.Data;
 using System;
+using BancoEisen.Data.Repositorios.Interfaces;
+using System.Threading.Tasks;
+using BancoEisen.Data.Models.Filtros;
+using BancoEisen.Data.Models.Ordens;
+using BancoEisen.Data.Services.Interfaces;
+using System.Linq;
 
 namespace BancoEisen.Controllers.Operacoes
 {
     public class DepositoController : IDepositoController
     {
-        private readonly IRepository<Conta> contaRepository;
-        private readonly IRepository<Operacao> operacaoRepository;
+        private readonly IContaRepositorio contaRepository;
+        private readonly IOperacaoRepositorio operacaoRepository;
+        private readonly IFiltragemService<Operacao, DepositoFiltro> filtragemService;
+        private readonly IOrdenacaoService<Operacao> ordenacaoService;
 
-        public DepositoController(IRepository<Conta> contaRepository, IRepository<Operacao> operacaoRepository)
+        public DepositoController(IContaRepositorio contaRepository,
+                                  IOperacaoRepositorio operacaoRepository,
+                                  IFiltragemService<Operacao, DepositoFiltro> filtragemService,
+                                  IOrdenacaoService<Operacao> ordenacaoService)
         {
             this.contaRepository = contaRepository;
             this.operacaoRepository = operacaoRepository;
+            this.filtragemService = filtragemService;
+            this.ordenacaoService = ordenacaoService;
+        }
+
+        public Operacao[] Todos(DepositoFiltro filtro, Ordem ordem)
+        {
+            var query = operacaoRepository.All();
+            query = filtragemService.Filtrar(query, filtro);
+            query = ordenacaoService.Ordenar(query, ordem);
+
+            return query.ToArray();
         }
 
         public Operacao Consultar(int depositoId)
@@ -25,7 +44,7 @@ namespace BancoEisen.Controllers.Operacoes
             return operacaoRepository.Get(depositoId);
         }
 
-        public Operacao Efetivar(OperacaoUnariaInformacoes depositoInformacoes)
+        public async Task<Operacao> Efetivar(OperacaoUnariaInformacoes depositoInformacoes)
         {
             if (depositoInformacoes.Valor <= 0)
                 throw new ArgumentException("O valor a depositar deve ser maior que zero.");
@@ -34,20 +53,14 @@ namespace BancoEisen.Controllers.Operacoes
                 throw new ArgumentException($"A conta informada é inválida.");
 
             var deposito = new Deposito(depositoInformacoes.Valor, depositoInformacoes.Observacao);
+            await operacaoRepository.PostAsync(deposito);
 
             var conta = contaRepository.Get(depositoInformacoes.ContaId);
-            
             conta.Saldo += depositoInformacoes.Valor;
             conta.Operacoes.Add(deposito);
+            await contaRepository.UpdateAsync(conta);
 
-            contaRepository.Update(conta);
-
-            return operacaoRepository.Post(deposito);
-        }
-
-        public Operacao[] Todos()
-        {
-            return operacaoRepository.Where(operacao => operacao.TipoOperacao == TipoOperacao.Deposito);
+            return deposito;
         }
     }
 }

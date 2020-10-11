@@ -24,15 +24,16 @@ namespace BancoEisen.Models.Cadastros
         public Pessoa Titular { get; set; }
 
         [DefaultValue(0)]
+        [DataType(DataType.Currency)]
         public decimal Saldo { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime DataAbertura { get; set; }
 
-        public ICollection<Operacao> Operacoes { get; set; }
+        public ICollection<Operacao> Operacoes { get; set; } = new List<Operacao>();
 
         public Conta()
         {
-
         }
 
         public Conta(int agencia, int numero, byte digito, int titularId)

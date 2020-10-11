@@ -2,7 +2,7 @@
 using BancoEisen.Models.Cadastros;
 using Microsoft.EntityFrameworkCore;
 
-namespace BancoEisen.Data
+namespace BancoEisen.Data.Contextos
 {
     public class BancoEisenContext : DbContext
     {

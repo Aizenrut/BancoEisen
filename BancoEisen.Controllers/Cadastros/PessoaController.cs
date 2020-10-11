@@ -1,44 +1,46 @@
 ﻿using BancoEisen.Controllers.Interfaces;
-using BancoEisen.Data;
+using BancoEisen.Data.Models.Filtros;
+using BancoEisen.Data.Models.Ordens;
+using BancoEisen.Data.Repositorios.Interfaces;
 using BancoEisen.Models.Cadastros;
 using BancoEisen.Models.Informacoes;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BancoEisen.Controllers.Cadastros
 {
     public class PessoaController : IPessoaController
     {
-        private readonly IRepository<Pessoa> pessoaRepository;
-        private readonly IRepository<Usuario> usuarioRepository;
+        private readonly IPessoaRepositorio pessoaRepositorio;
+        private readonly IUsuarioRepositorio usuarioRepositorio;
 
-        public PessoaController(IRepository<Pessoa> pessoaRepository, IRepository<Usuario> usuarioRepository)
+        public PessoaController(IPessoaRepositorio pessoaRepositorio, IUsuarioRepositorio usuarioRepositorio)
         {
-            this.pessoaRepository = pessoaRepository;
-            this.usuarioRepository = usuarioRepository;
+            this.pessoaRepositorio = pessoaRepositorio;
+            this.usuarioRepositorio = usuarioRepositorio;
         }
 
-        public void Alterar(Pessoa pessoa)
+        public Pessoa[] Todos(PessoaFiltro filtro = null, Ordem ordem = null)
         {
-            if (!pessoaRepository.Any(pessoa.Id))
-                throw new ArgumentException("A pessoa informada é inválida.");
+            var query = pessoaRepositorio.All();
+            query = pessoaRepositorio.Filtrar(query, filtro);
+            query = pessoaRepositorio.Ordenar(query, ordem);
 
-            var pessoaSalva = pessoaRepository.Get(pessoa.Id);
-
-            pessoaSalva.Nome = pessoa.Nome;
-            pessoaSalva.Sobrenome = pessoa.Sobrenome;
-            pessoaSalva.Cpf = pessoa.Cpf;
-            pessoaSalva.DataNascimento = pessoa.DataNascimento;
-            pessoaSalva.Email = pessoa.Email;
-
-            pessoaRepository.Update(pessoaSalva);
+            return query.ToArray();
         }
 
-        public Pessoa Cadastrar(PessoaInformacoes informacoes)
+        public Pessoa Consultar(int id)
+        {
+            return pessoaRepositorio.Get(id);
+        }
+
+        public async Task<Pessoa> Cadastrar(PessoaInformacoes informacoes)
         {
             if (informacoes.DataNascimento > DateTime.Now)
                 throw new ArgumentException("A data de nascimento não pode ser posterior a hoje.");
 
-            if (!usuarioRepository.Any(informacoes.UsuarioId))
+            if (!usuarioRepositorio.Any(informacoes.UsuarioId))
                 throw new ArgumentException("O usuário informado é inválido.");
 
             var pessoa = new Pessoa(informacoes.Nome,
@@ -48,27 +50,35 @@ namespace BancoEisen.Controllers.Cadastros
                                     informacoes.Email,
                                     informacoes.UsuarioId);
 
-            return pessoaRepository.Post(pessoa);
+            await pessoaRepositorio.PostAsync(pessoa);
+
+            return pessoa;
         }
 
-        public Pessoa Consultar(int id)
+        public async Task Alterar(Pessoa pessoa)
         {
-            return pessoaRepository.Get(id);
-        }
-
-        public void Remover(int id)
-        {
-            if (!pessoaRepository.Any(id))
+            if (!pessoaRepositorio.Any(pessoa.Id))
                 throw new ArgumentException("A pessoa informada é inválida.");
 
-            var pessoa = pessoaRepository.Get(id);
+            var pessoaSalva = pessoaRepositorio.Get(pessoa.Id);
 
-            pessoaRepository.Delete(pessoa);
+            pessoaSalva.Nome = pessoa.Nome;
+            pessoaSalva.Sobrenome = pessoa.Sobrenome;
+            pessoaSalva.Cpf = pessoa.Cpf;
+            pessoaSalva.DataNascimento = pessoa.DataNascimento;
+            pessoaSalva.Email = pessoa.Email;
+
+            await pessoaRepositorio.UpdateAsync(pessoaSalva);
         }
 
-        public Pessoa[] Todos()
+        public async Task Remover(int id)
         {
-            return pessoaRepository.All();
+            if (!pessoaRepositorio.Any(id))
+                throw new ArgumentException("A pessoa informada é inválida.");
+
+            var pessoa = pessoaRepositorio.Get(id);
+
+            await pessoaRepositorio.DeleteAsync(pessoa);
         }
     }
 }

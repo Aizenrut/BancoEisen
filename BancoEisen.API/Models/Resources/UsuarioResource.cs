@@ -1,6 +1,6 @@
 ﻿using BancoEisen.Models.Cadastros;
 
-namespace BancoEisen.API.Models.Cadastros
+namespace BancoEisen.API.Models.Resources
 {
     public struct UsuarioResource
     {

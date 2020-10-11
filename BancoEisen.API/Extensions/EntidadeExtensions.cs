@@ -1,4 +1,4 @@
-﻿using BancoEisen.API.Models.Cadastros;
+﻿using BancoEisen.API.Models.Resources;
 using BancoEisen.API.Models.Operacoes;
 using BancoEisen.Models.Abstracoes;
 using BancoEisen.Models.Cadastros;

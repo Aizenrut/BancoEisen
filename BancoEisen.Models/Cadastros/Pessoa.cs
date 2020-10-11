@@ -24,11 +24,13 @@ namespace BancoEisen.Models.Cadastros
         public string Cpf { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
 
         [Required]
         [MinLength(5)]
         [MaxLength(50)]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]

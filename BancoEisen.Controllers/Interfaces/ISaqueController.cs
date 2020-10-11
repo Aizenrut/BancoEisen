@@ -1,8 +1,9 @@
-﻿using BancoEisen.Models.Informacoes;
+﻿using BancoEisen.Data.Models.Filtros;
+using BancoEisen.Models.Informacoes;
 
 namespace BancoEisen.Controllers.Interfaces
 {
-    public interface ISaqueController : IOperacaoController<OperacaoUnariaInformacoes>
+    public interface ISaqueController : IOperacaoController<OperacaoUnariaInformacoes, SaqueFiltro>
     {
     }
 }
