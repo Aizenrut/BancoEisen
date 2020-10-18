@@ -1,4 +1,4 @@
-﻿namespace BancoEisen.API.Models.Paginacoes
+﻿namespace BancoEisen.API.Models
 {
     public class Pagina
     {

@@ -1,4 +1,4 @@
-﻿using BancoEisen.API.Models.Erros;
+﻿using BancoEisen.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;

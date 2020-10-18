@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 
-namespace BancoEisen.API.Models.Erros
+namespace BancoEisen.API.Models
 {
     public class ErrorResponse
     {

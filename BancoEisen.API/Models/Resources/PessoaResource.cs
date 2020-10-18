@@ -1,7 +1,7 @@
 ﻿using BancoEisen.Models.Cadastros;
 using System;
 
-namespace BancoEisen.API.Models.Resources
+namespace BancoEisen.API.Models
 {
     public struct PessoaResource
     {

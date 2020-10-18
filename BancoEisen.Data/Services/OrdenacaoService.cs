@@ -1,4 +1,4 @@
-﻿using BancoEisen.Data.Models.Ordens;
+﻿using BancoEisen.Data.Models;
 using BancoEisen.Data.Services.Interfaces;
 using BancoEisen.Models.Abstracoes;
 using System.Linq;

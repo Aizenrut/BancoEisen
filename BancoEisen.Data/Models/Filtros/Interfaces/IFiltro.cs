@@ -1,4 +1,4 @@
-﻿namespace BancoEisen.Data.Models.Filtros.Interfaces
+﻿namespace BancoEisen.Data.Models
 {
     public interface IFiltro<T>
     {

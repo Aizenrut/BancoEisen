@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BancoEisen.Controllers\BancoEisen.Controllers.csproj" />
     <ProjectReference Include="..\BancoEisen.Data\BancoEisen.Data.csproj" />
+    <ProjectReference Include="..\BancoEisen.Services\BancoEisen.Services.csproj" />
   </ItemGroup>
 
 </Project>

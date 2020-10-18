@@ -1,8 +1,7 @@
-﻿using BancoEisen.Data.Models.Filtros.Interfaces;
-using BancoEisen.Models.Abstracoes;
+﻿using BancoEisen.Models.Abstracoes;
 using System;
 
-namespace BancoEisen.Data.Models.Filtros.Abstracoes
+namespace BancoEisen.Data.Models
 {
     public class OperacaoFiltro : IFiltro<Operacao>
     {

@@ -1,28 +1,23 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using BancoEisen.Controllers.Interfaces;
-using BancoEisen.Controllers.Cadastros;
-using BancoEisen.Controllers.Operacoes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using BancoEisen.API.Filters;
-using BancoEisen.Data.Repositorios;
-using BancoEisen.Data.Contextos;
-using BancoEisen.Data.Repositorios.Interfaces;
-using BancoEisen.API.Services.Interfaces;
-using BancoEisen.Models.Cadastros;
+using BancoEisen.Data.Repositories;
+using BancoEisen.Data.Contexts;
 using BancoEisen.API.Services;
+using BancoEisen.Models.Cadastros;
 using BancoEisen.Data.Services.Interfaces;
 using BancoEisen.Data.Services;
-using BancoEisen.Data.Models.Filtros;
+using BancoEisen.Data.Models;
 using BancoEisen.Models.Abstracoes;
-using BancoEisen.Data.Models.Filtros.Abstracoes;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
+using BancoEisen.Services;
 
 namespace BancoEisen.API
 {
@@ -80,15 +75,15 @@ namespace BancoEisen.API
 
             services.AddHttpContextAccessor();
 
-            services.AddTransient<IContaRepositorio, ContaRepositorio>();
-            services.AddTransient<IPessoaRepositorio, PessoaRepositorio>();
-            services.AddTransient<IOperacaoRepositorio, OperacaoRepositorio>();
+            services.AddTransient<IContaRepository, ContaRepository>();
+            services.AddTransient<IPessoaRepository, PessoaRepository>();
+            services.AddTransient<IOperacaoRepository, OperacaoRepository>();
 
-            services.AddTransient<IContaController, ContaController>();
-            services.AddTransient<IPessoaController, PessoaController>();
-            services.AddTransient<IDepositoController, DepositoController>();
-            services.AddTransient<ISaqueController, SaqueController>();
-            services.AddTransient<ITransferenciaController, TransferenciaController>();
+            services.AddTransient<IContaService, ContaService>();
+            services.AddTransient<IPessoaService, PessoaService>();
+            services.AddTransient<IDepositoService, DepositoService>();
+            services.AddTransient<ISaqueService, SaqueService>();
+            services.AddTransient<ITransferenciaService, TransferenciaService>();
             
             services.AddTransient<IFiltragemService<Conta, ContaFiltro>, FiltragemService<Conta, ContaFiltro>>();
             services.AddTransient<IFiltragemService<Pessoa, PessoaFiltro>, FiltragemService<Pessoa, PessoaFiltro>>();

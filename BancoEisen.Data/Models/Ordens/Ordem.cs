@@ -1,4 +1,4 @@
-﻿namespace BancoEisen.Data.Models.Ordens
+﻿namespace BancoEisen.Data.Models
 {
     public class Ordem
     {

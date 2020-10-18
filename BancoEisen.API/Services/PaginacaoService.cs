@@ -1,6 +1,4 @@
-﻿using BancoEisen.API.Models.Paginacoes;
-using BancoEisen.API.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using BancoEisen.API.Models;
 using System;
 using System.Linq;
 

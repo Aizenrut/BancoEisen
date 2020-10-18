@@ -1,6 +1,6 @@
-﻿using BancoEisen.API.Models.Paginacoes;
+﻿using BancoEisen.API.Models;
 
-namespace BancoEisen.API.Services.Interfaces
+namespace BancoEisen.API.Services
 {
     public interface IPaginacaoService
     {

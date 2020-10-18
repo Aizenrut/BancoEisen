@@ -1,8 +1,7 @@
-﻿using BancoEisen.Data.Models.Filtros.Interfaces;
-using BancoEisen.Models.Cadastros;
+﻿using BancoEisen.Models.Cadastros;
 using System;
 
-namespace BancoEisen.Data.Models.Filtros
+namespace BancoEisen.Data.Models
 {
     public class ContaFiltro : IFiltro<Conta>
     {

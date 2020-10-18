@@ -1,5 +1,5 @@
-﻿using BancoEisen.API.Models.Paginacoes;
-using BancoEisen.Data.Models.Ordens;
+﻿using BancoEisen.API.Models;
+using BancoEisen.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace BancoEisen.API.Models.Erros
+namespace BancoEisen.API.Models
 {
     public class Error
     {

@@ -1,22 +1,20 @@
-﻿using BancoEisen.Controllers.Interfaces;
-using BancoEisen.API.Extensions;
+﻿using BancoEisen.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using BancoEisen.API.Models.Erros;
+using BancoEisen.API.Models;
 using BancoEisen.API.Controllers.Interfaces;
 using System.Threading.Tasks;
-using BancoEisen.Data.Models.Filtros.Interfaces;
 using BancoEisen.Models.Abstracoes;
-using BancoEisen.Data.Models.Ordens;
-using BancoEisen.API.Services.Interfaces;
+using BancoEisen.Data.Models;
+using BancoEisen.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using BancoEisen.API.Models.Paginacoes;
 using System.Linq;
+using BancoEisen.Services;
 
 namespace BancoEisen.API.Controllers.Templates
 {
     public abstract class OperacoesControllerTamplate<TServico, TInformacoes, TFiltro> : ControllerBase, IOperacoesController<TInformacoes, TFiltro>
-        where TServico : IOperacaoController<TInformacoes, TFiltro>
+        where TServico : IOperacaoService<TInformacoes, TFiltro>
         where TInformacoes : struct
         where TFiltro : IFiltro<Operacao>
     {

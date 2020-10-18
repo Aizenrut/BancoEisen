@@ -1,22 +1,20 @@
-﻿using BancoEisen.Controllers.Interfaces;
-using BancoEisen.Models.Abstracoes;
+﻿using BancoEisen.Models.Abstracoes;
 using BancoEisen.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using BancoEisen.API.Models.Erros;
+using BancoEisen.API.Models;
 using System.Threading.Tasks;
-using BancoEisen.Data.Models.Filtros.Interfaces;
 using BancoEisen.API.Controllers.Interfaces;
-using BancoEisen.Data.Models.Ordens;
-using BancoEisen.API.Services.Interfaces;
+using BancoEisen.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using BancoEisen.API.Models.Paginacoes;
 using System.Linq;
+using BancoEisen.Services;
+using BancoEisen.Data.Models;
 
 namespace BancoEisen.API.Controllers.Templates
 {
     public abstract class CadastrosControllerTemplate<TServico, TEntidade, TInformacoes, TFiltro> : ControllerBase, ICadastrosController<TEntidade, TInformacoes, TFiltro>
-        where TServico : ICadastroController<TEntidade, TInformacoes, TFiltro>
+        where TServico : ICadastroService<TEntidade, TInformacoes, TFiltro>
         where TEntidade : Entidade
         where TInformacoes : struct
         where TFiltro : IFiltro<TEntidade>
