@@ -1,3 +1,4 @@
+using BancoEisen.AuthProvider.Clients;
 using BancoEisen.AuthProvider.Data;
 using BancoEisen.AuthProvider.Filters;
 using BancoEisen.AuthProvider.Models;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace BancoEisen.AuthProvider
@@ -60,6 +62,11 @@ namespace BancoEisen.AuthProvider
             {
                 var actionContext = factory.GetService<IActionContextAccessor>().ActionContext;
                 return new UrlHelper(actionContext);
+            });
+
+            services.AddHttpClient<EmailProducerClient>(options =>
+            {
+                options.BaseAddress = new Uri("http://localhost:7000/api/");
             });
 
             services.AddTransient<IEmailService, EmailService>();

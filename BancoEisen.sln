@@ -11,7 +11,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.API", "BancoEise
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.AuthProvider", "BancoEisen.AuthProvider\BancoEisen.AuthProvider.csproj", "{1D8C76C0-7E07-4A06-B6E6-191A20E5F3D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoEisen.Services", "BancoEisen.Services\BancoEisen.Services.csproj", "{E6FD4AFB-52FA-4FEB-8C85-12CECB310014}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.Services", "BancoEisen.Services\BancoEisen.Services.csproj", "{E6FD4AFB-52FA-4FEB-8C85-12CECB310014}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoEisen.Messaging.EmailProducer", "BancoEisen.Messaging.EmailProducer\BancoEisen.Messaging.EmailProducer.csproj", "{18C0AC98-34BA-4F64-8933-73A261928546}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoEisen.Messaging.EmailConsumer", "BancoEisen.Messaging.EmailConsumer\BancoEisen.Messaging.EmailConsumer.csproj", "{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{986744B2-71BF-4B16-9997-658D69E3EFBB}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\docker-compose.yml = Docker\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rabbitmq-server", "rabbitmq-server", "{35AF7873-86E4-4110-B139-7632BE258B5F}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\rabbitmq-server\definitions.json = Docker\rabbitmq-server\definitions.json
+		Docker\rabbitmq-server\Dockerfile = Docker\rabbitmq-server\Dockerfile
+		Docker\rabbitmq-server\rabbitmq.config = Docker\rabbitmq-server\rabbitmq.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +55,20 @@ Global
 		{E6FD4AFB-52FA-4FEB-8C85-12CECB310014}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6FD4AFB-52FA-4FEB-8C85-12CECB310014}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6FD4AFB-52FA-4FEB-8C85-12CECB310014}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18C0AC98-34BA-4F64-8933-73A261928546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18C0AC98-34BA-4F64-8933-73A261928546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18C0AC98-34BA-4F64-8933-73A261928546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18C0AC98-34BA-4F64-8933-73A261928546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35AF7873-86E4-4110-B139-7632BE258B5F} = {986744B2-71BF-4B16-9997-658D69E3EFBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {120635DB-D482-4C22-9A39-B56918BE2E28}
