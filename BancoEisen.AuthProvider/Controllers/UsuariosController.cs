@@ -21,6 +21,9 @@ namespace BancoEisen.AuthProvider.Controllers
         public async Task<IActionResult> SolicitarRedefinicaoSenha([Required][FromQuery] string nomeUsuario,
                                                                    [Required][FromQuery] string novoEmail)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ErrorResponse.From(ModelState));
+
             var usuario = await usuarioService.ObterPeloNomeAsync(nomeUsuario);
 
             if (usuario == null)
@@ -34,6 +37,9 @@ namespace BancoEisen.AuthProvider.Controllers
         [HttpGet("solicitarRedefinicaoSenha")]
         public async Task<IActionResult> SolicitarRedefinicaoSenha([Required][FromQuery] string nomeUsuario)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ErrorResponse.From(ModelState));
+
             var usuario = await usuarioService.ObterPeloNomeAsync(nomeUsuario);
 
             if (usuario == null)
@@ -48,7 +54,7 @@ namespace BancoEisen.AuthProvider.Controllers
         public async Task<IActionResult> Cadastrar(UsuarioInformacoes informacoes)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
             var result = await usuarioService.CadastrarAsync(informacoes);
 
@@ -71,7 +77,7 @@ namespace BancoEisen.AuthProvider.Controllers
         public async Task<IActionResult> ConfirmarEmail(ConfirmacaoInformacoes informacoes)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
             var usuario = await usuarioService.ObterPeloNomeAsync(informacoes.NomeUsuario);
 
@@ -81,7 +87,7 @@ namespace BancoEisen.AuthProvider.Controllers
             var result = await usuarioService.ConfirmarEnderecoEmailAsync(usuario, informacoes.Token);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(ErrorResponse.From(result.Errors));
 
             return Ok();
         }
@@ -90,7 +96,7 @@ namespace BancoEisen.AuthProvider.Controllers
         public async Task<IActionResult> AlterarEmail(AlteracaoEmailInformacoes informacoes)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
             var usuario = await usuarioService.ObterPeloNomeAsync(informacoes.NomeUsuario);
 
@@ -100,12 +106,12 @@ namespace BancoEisen.AuthProvider.Controllers
             var resultAlteracao = await usuarioService.AlterarEmailAsync(usuario, informacoes.Token, informacoes.NovoEmail);
 
             if (!resultAlteracao.Succeeded)
-                return BadRequest(resultAlteracao.Errors);
+                return BadRequest(ErrorResponse.From(resultAlteracao.Errors));
 
             var resultRemocao = await usuarioService.RemoverConfirmacaoEmailAsync(usuario);
 
             if (!resultRemocao.Succeeded)
-                return BadRequest(resultRemocao.Errors);
+                return BadRequest(ErrorResponse.From(resultRemocao.Errors));
 
             await usuarioService.EnviarTokenConfirmacaoEmailAsync(usuario);
 
@@ -116,7 +122,7 @@ namespace BancoEisen.AuthProvider.Controllers
         public async Task<IActionResult> AlterarSenha(AlteracaoSenhaInformacoes informacoes)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
             var usuario = await usuarioService.ObterPeloNomeAsync(informacoes.NomeUsuario);
 
@@ -126,7 +132,7 @@ namespace BancoEisen.AuthProvider.Controllers
             var result = await usuarioService.AlterarSenhaAsync(usuario, informacoes.SenhaAtual, informacoes.NovaSenha);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(ErrorResponse.From(result.Errors));
 
             return Ok();
         }
@@ -135,7 +141,7 @@ namespace BancoEisen.AuthProvider.Controllers
         public async Task<IActionResult> AlterarAutenticacaoDoisFatores(AlterarAutenticacaoDoisFatoresInformacoes informacoes)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
             var usuario = await usuarioService.ObterPeloNomeAsync(informacoes.NomeUsuario);
 
@@ -145,7 +151,7 @@ namespace BancoEisen.AuthProvider.Controllers
             var result = await usuarioService.AlterarAutenticacaoDeDoisFatores(usuario, informacoes.UtilizarAutenticacaoDoisFatores);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(ErrorResponse.From(result.Errors));
 
             return Ok();
         }
@@ -154,7 +160,7 @@ namespace BancoEisen.AuthProvider.Controllers
         public async Task<IActionResult> RedefinirSenha(RedefinicaoSenhaInformacoes informacoes)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
             var usuario = await usuarioService.ObterPeloNomeAsync(informacoes.NomeUsuario);
 
@@ -164,7 +170,7 @@ namespace BancoEisen.AuthProvider.Controllers
             var result = await usuarioService.RedefinirSenhaAsync(usuario, informacoes.Token, informacoes.NovaSenha);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(ErrorResponse.From(result.Errors));
 
             return Ok();
         }
@@ -177,7 +183,7 @@ namespace BancoEisen.AuthProvider.Controllers
             var result = await usuarioService.RemoverAsync(usuario);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(ErrorResponse.From(result.Errors));
 
             return NoContent();
         }

@@ -1,4 +1,5 @@
 using BancoEisen.AuthProvider.Data;
+using BancoEisen.AuthProvider.Filters;
 using BancoEisen.AuthProvider.Models;
 using BancoEisen.AuthProvider.Services;
 using Microsoft.AspNetCore.Builder;
@@ -30,7 +31,13 @@ namespace BancoEisen.AuthProvider
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
+                options.Filters.Add<ErrorResponseFilter>();
             }).AddXmlSerializerFormatters();
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddDbContext<BancoEisenAuthenticationContext>(options =>
             {

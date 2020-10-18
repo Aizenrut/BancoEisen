@@ -1,9 +1,9 @@
-﻿using BancoEisen.API.Models.Erros;
+﻿using BancoEisen.AuthProvider.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-namespace BancoEisen.API.Filters
+namespace BancoEisen.AuthProvider.Filters
 {
     public class ErrorResponseFilter : IExceptionFilter
     {

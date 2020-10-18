@@ -21,7 +21,7 @@ namespace BancoEisen.AuthProvider.Controllers
         public async Task<IActionResult> Autenticar(Credenciais credenciais)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ErrorResponse.From(ModelState));
 
             var result = await loginService.AutenticarAsync(credenciais);
 
@@ -31,6 +31,9 @@ namespace BancoEisen.AuthProvider.Controllers
         [HttpPatch]
         public async Task<IActionResult> AutenticarDoisFatores(CredenciaisDoisFatores credenciais)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ErrorResponse.From(ModelState));
+
             var result = await loginService.AutenticarDoisFatoresAsync(credenciais);
 
             return TratarSignInResult(result, credenciais);
