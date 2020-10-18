@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.Controllers", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.API", "BancoEisen.API\BancoEisen.API.csproj", "{088EC562-299C-49BF-95C7-AD2B4EBCB320}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoEisen.AuthProvider", "BancoEisen.AuthProvider\BancoEisen.AuthProvider.csproj", "{1D8C76C0-7E07-4A06-B6E6-191A20E5F3D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{088EC562-299C-49BF-95C7-AD2B4EBCB320}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{088EC562-299C-49BF-95C7-AD2B4EBCB320}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{088EC562-299C-49BF-95C7-AD2B4EBCB320}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D8C76C0-7E07-4A06-B6E6-191A20E5F3D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D8C76C0-7E07-4A06-B6E6-191A20E5F3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D8C76C0-7E07-4A06-B6E6-191A20E5F3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D8C76C0-7E07-4A06-B6E6-191A20E5F3D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

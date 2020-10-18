@@ -15,9 +15,6 @@ namespace BancoEisen.API.Extensions
             if (entidade is Pessoa pessoa)
                 return new PessoaResource(pessoa);
 
-            if (entidade is Usuario usuario)
-                return new UsuarioResource(usuario);
-
             if (entidade is Operacao operacao)
                 return new OperacaoResource(operacao);
 

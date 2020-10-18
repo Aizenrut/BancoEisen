@@ -6,7 +6,6 @@ namespace BancoEisen.Data.Contextos
 {
     public class BancoEisenContext : DbContext
     {
-        public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Pessoa> Pessoas { get; set; }
         public DbSet<Conta> Contas { get; set; }
         public DbSet<Operacao> Operacoes { get; set; }

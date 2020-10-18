@@ -33,23 +33,18 @@ namespace BancoEisen.Models.Cadastros
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required]
-        public int UsuarioId { get; set; }
-        public Usuario Usuario { get; set; }
-
         public Pessoa()
         {
 
         }
 
-        public Pessoa(string nome, string sobrenome, string cpf, DateTime dataNascimento, string email, int usuarioId)
+        public Pessoa(string nome, string sobrenome, string cpf, DateTime dataNascimento, string email)
         {
             Nome = nome;
             Sobrenome = sobrenome;
             Cpf = cpf;
             DataNascimento = dataNascimento;
             Email = email;
-            UsuarioId = usuarioId;
         }
     }
 }

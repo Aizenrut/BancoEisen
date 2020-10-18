@@ -13,12 +13,10 @@ namespace BancoEisen.Controllers.Cadastros
     public class PessoaController : IPessoaController
     {
         private readonly IPessoaRepositorio pessoaRepositorio;
-        private readonly IUsuarioRepositorio usuarioRepositorio;
 
-        public PessoaController(IPessoaRepositorio pessoaRepositorio, IUsuarioRepositorio usuarioRepositorio)
+        public PessoaController(IPessoaRepositorio pessoaRepositorio)
         {
             this.pessoaRepositorio = pessoaRepositorio;
-            this.usuarioRepositorio = usuarioRepositorio;
         }
 
         public Pessoa[] Todos(PessoaFiltro filtro = null, Ordem ordem = null)
@@ -40,15 +38,11 @@ namespace BancoEisen.Controllers.Cadastros
             if (informacoes.DataNascimento > DateTime.Now)
                 throw new ArgumentException("A data de nascimento não pode ser posterior a hoje.");
 
-            if (!usuarioRepositorio.Any(informacoes.UsuarioId))
-                throw new ArgumentException("O usuário informado é inválido.");
-
             var pessoa = new Pessoa(informacoes.Nome,
                                     informacoes.Sobrenome,
                                     informacoes.Cpf,
                                     informacoes.DataNascimento,
-                                    informacoes.Email,
-                                    informacoes.UsuarioId);
+                                    informacoes.Email);
 
             await pessoaRepositorio.PostAsync(pessoa);
 

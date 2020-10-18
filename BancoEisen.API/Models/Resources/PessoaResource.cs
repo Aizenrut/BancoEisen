@@ -11,7 +11,6 @@ namespace BancoEisen.API.Models.Resources
         public string Cpf { get; }
         public DateTime DataNascimento { get; }
         public string Email { get; }
-        public string Usuario { get; }
 
         public PessoaResource(Pessoa pessoa)
         {
@@ -21,7 +20,6 @@ namespace BancoEisen.API.Models.Resources
             Cpf = pessoa.Cpf;
             DataNascimento = pessoa.DataNascimento;
             Email = pessoa.Email;
-            Usuario = $"/api/Usuarios/{pessoa.UsuarioId}";
         }
     }
 }

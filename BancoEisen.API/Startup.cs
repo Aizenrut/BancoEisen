@@ -18,9 +18,11 @@ using BancoEisen.API.Services;
 using BancoEisen.Data.Services.Interfaces;
 using BancoEisen.Data.Services;
 using BancoEisen.Data.Models.Filtros;
-using BancoEisen.Models.Operacoes;
 using BancoEisen.Models.Abstracoes;
 using BancoEisen.Data.Models.Filtros.Abstracoes;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
 
 namespace BancoEisen.API
 {
@@ -52,23 +54,44 @@ namespace BancoEisen.API
                 options.UseSqlServer(configuration.GetConnectionString("BancoEisen"));
             });
 
+            var schemesSection = configuration.GetSection("Schemes");
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = schemesSection["Authentication"];
+                options.DefaultChallengeScheme = schemesSection["Challenge"];
+            }).AddJwtBearer(schemesSection["Authentication"], options =>
+            {
+                var keysSection = configuration.GetSection("Keys");
+                var claimsSection = configuration.GetSection("Claims");
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = claimsSection["Iss"],
+                    ValidAudience = claimsSection["Aud"],
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keysSection["JwtBearer"]))
+                };
+            });
+
             services.AddHttpContextAccessor();
 
             services.AddTransient<IContaRepositorio, ContaRepositorio>();
             services.AddTransient<IPessoaRepositorio, PessoaRepositorio>();
-            services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddTransient<IOperacaoRepositorio, OperacaoRepositorio>();
 
             services.AddTransient<IContaController, ContaController>();
             services.AddTransient<IPessoaController, PessoaController>();
-            services.AddTransient<IUsuarioController, UsuarioController>();
             services.AddTransient<IDepositoController, DepositoController>();
             services.AddTransient<ISaqueController, SaqueController>();
             services.AddTransient<ITransferenciaController, TransferenciaController>();
             
             services.AddTransient<IFiltragemService<Conta, ContaFiltro>, FiltragemService<Conta, ContaFiltro>>();
             services.AddTransient<IFiltragemService<Pessoa, PessoaFiltro>, FiltragemService<Pessoa, PessoaFiltro>>();
-            services.AddTransient<IFiltragemService<Usuario, UsuarioFiltro>, FiltragemService<Usuario, UsuarioFiltro>>();
             services.AddTransient<IFiltragemService<Operacao, OperacaoFiltro>, FiltragemService<Operacao, OperacaoFiltro>>();
             services.AddTransient<IFiltragemService<Operacao, DepositoFiltro>, FiltragemService<Operacao, DepositoFiltro>>();
             services.AddTransient<IFiltragemService<Operacao, SaqueFiltro>, FiltragemService<Operacao, SaqueFiltro>>();
@@ -76,7 +99,6 @@ namespace BancoEisen.API
             
             services.AddTransient<IOrdenacaoService<Conta>, OrdenacaoService<Conta>>();
             services.AddTransient<IOrdenacaoService<Pessoa>, OrdenacaoService<Pessoa>>();
-            services.AddTransient<IOrdenacaoService<Usuario>, OrdenacaoService<Usuario>>();
             services.AddTransient<IOrdenacaoService<Operacao>, OrdenacaoService<Operacao>>();
 
             services.AddTransient<IPaginacaoService, PaginacaoService>();
@@ -84,6 +106,7 @@ namespace BancoEisen.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseAuthentication();
             app.UseMvc();
 
             if (env.IsDevelopment())

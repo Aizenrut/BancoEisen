@@ -30,8 +30,5 @@ namespace BancoEisen.Models.Informacoes
         [MaxLength(50)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-
-        [Required]
-        public int UsuarioId { get; set; }
     }
 }

@@ -3,11 +3,13 @@ using BancoEisen.API.Services.Interfaces;
 using BancoEisen.Controllers.Interfaces;
 using BancoEisen.Data.Models.Filtros;
 using BancoEisen.Models.Informacoes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BancoEisen.API.Controllers.Operacoes
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class DepositosController : OperacoesControllerTamplate<IDepositoController, OperacaoUnariaInformacoes, DepositoFiltro>

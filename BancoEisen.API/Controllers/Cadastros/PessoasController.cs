@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using BancoEisen.Data.Models.Filtros;
 using BancoEisen.API.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BancoEisen.API.Controllers.Entidades
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PessoasController : CadastrosControllerTemplate<IPessoaController, Pessoa, PessoaInformacoes, PessoaFiltro>
