@@ -30,7 +30,7 @@ namespace BancoEisen.AuthProvider
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
-            });
+            }).AddXmlSerializerFormatters();
 
             services.AddDbContext<BancoEisenAuthenticationContext>(options =>
             {

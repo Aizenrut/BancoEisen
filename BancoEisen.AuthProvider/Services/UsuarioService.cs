@@ -1,5 +1,4 @@
 ﻿using BancoEisen.AuthProvider.Models;
-using BancoEisen.AuthProvider.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 

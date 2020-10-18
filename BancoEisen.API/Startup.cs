@@ -42,7 +42,7 @@ namespace BancoEisen.API
                 options.EnableEndpointRouting = false;
                 options.Filters.Add<BadRequestFilter>(1);
                 options.Filters.Add<ErrorResponseFilter>(0);
-            });
+            }).AddXmlSerializerFormatters();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
