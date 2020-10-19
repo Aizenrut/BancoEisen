@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.AuthProvider", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.Services", "BancoEisen.Services\BancoEisen.Services.csproj", "{E6FD4AFB-52FA-4FEB-8C85-12CECB310014}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoEisen.Messaging.EmailProducer", "BancoEisen.Messaging.EmailProducer\BancoEisen.Messaging.EmailProducer.csproj", "{18C0AC98-34BA-4F64-8933-73A261928546}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.Messaging.EmailProducer", "BancoEisen.Messaging.EmailProducer\BancoEisen.Messaging.EmailProducer.csproj", "{18C0AC98-34BA-4F64-8933-73A261928546}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoEisen.Messaging.EmailConsumer", "BancoEisen.Messaging.EmailConsumer\BancoEisen.Messaging.EmailConsumer.csproj", "{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.Messaging.EmailConsumer", "BancoEisen.Messaging.EmailConsumer\BancoEisen.Messaging.EmailConsumer.csproj", "{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{986744B2-71BF-4B16-9997-658D69E3EFBB}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,6 +27,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rabbitmq-server", "rabbitmq
 		Docker\rabbitmq-server\definitions.json = Docker\rabbitmq-server\definitions.json
 		Docker\rabbitmq-server\Dockerfile = Docker\rabbitmq-server\Dockerfile
 		Docker\rabbitmq-server\rabbitmq.config = Docker\rabbitmq-server\rabbitmq.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mssql-2017", "mssql-2017", "{75547B07-8E87-4552-9DCF-312301B8346C}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\mssql-2017\Dockerfile = Docker\mssql-2017\Dockerfile
 	EndProjectSection
 EndProject
 Global
@@ -69,6 +74,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{35AF7873-86E4-4110-B139-7632BE258B5F} = {986744B2-71BF-4B16-9997-658D69E3EFBB}
+		{75547B07-8E87-4552-9DCF-312301B8346C} = {986744B2-71BF-4B16-9997-658D69E3EFBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {120635DB-D482-4C22-9A39-B56918BE2E28}

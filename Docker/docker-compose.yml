@@ -9,3 +9,17 @@ services:
     ports:
     - 5672:5672
     - 15672:15672
+
+  auth-sql-server:
+    build: ./mssql-2017/
+    container_name: auth-sql
+    hostname: auth-sql-server
+    ports:
+    - 6500:1433
+
+  eisen-sql:
+    build: ./mssql-2017/
+    container_name: eisen-sql
+    hostname: eisen-sql-server
+    ports:
+    - 5500:1433

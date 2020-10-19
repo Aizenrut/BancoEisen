@@ -27,24 +27,17 @@ namespace BancoEisen.Models.Cadastros
         [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
 
-        [Required]
-        [MinLength(5)]
-        [MaxLength(50)]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-
         public Pessoa()
         {
 
         }
 
-        public Pessoa(string nome, string sobrenome, string cpf, DateTime dataNascimento, string email)
+        public Pessoa(string nome, string sobrenome, string cpf, DateTime dataNascimento)
         {
             Nome = nome;
             Sobrenome = sobrenome;
             Cpf = cpf;
             DataNascimento = dataNascimento;
-            Email = email;
         }
     }
 }

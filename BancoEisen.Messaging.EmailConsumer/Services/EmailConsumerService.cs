@@ -68,5 +68,11 @@ namespace BancoEisen.Messaging.EmailConsumer.Services
                 logger.LogError($"Erro: {e.Message}", e);
             }
         }
+
+        public override void Dispose()
+        {
+            channel.Dispose();
+            base.Dispose();
+        }
     }
 }

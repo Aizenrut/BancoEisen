@@ -10,6 +10,8 @@ namespace BancoEisen.Messaging.EmailConsumer
 {
     public class Startup
     {
+        private IConnection currentConnection;
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient(factory =>
@@ -19,9 +21,18 @@ namespace BancoEisen.Messaging.EmailConsumer
 
             services.AddTransient(factory =>
             {
-                var connectionfactory = factory.GetService<ConnectionFactory>();
-                var connection = connectionfactory.CreateConnection();
+                if (currentConnection == null || !currentConnection.IsOpen)
+                {
+                    var connectionfactory = factory.GetService<ConnectionFactory>();
+                    currentConnection = connectionfactory.CreateConnection();
+                }
 
+                return currentConnection;
+            });
+
+            services.AddTransient(factory =>
+            {
+                var connection = factory.GetService<IConnection>();
                 return connection.CreateModel();
             });
 

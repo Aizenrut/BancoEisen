@@ -8,6 +8,8 @@ namespace BancoEisen.Messaging.EmailProducer
 {
     public class Startup
     {
+        private IConnection currentConnection;
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options =>
@@ -20,11 +22,20 @@ namespace BancoEisen.Messaging.EmailProducer
                 return new ConnectionFactory() { HostName = "localhost" };
             });
 
-            services.AddTransient(factory => 
+            services.AddTransient(factory =>
             {
-                var connectionfactory = factory.GetService<ConnectionFactory>();
-                var connection = connectionfactory.CreateConnection();
-                
+                if (currentConnection == null || !currentConnection.IsOpen)
+                {
+                    var connectionfactory = factory.GetService<ConnectionFactory>();
+                    currentConnection = connectionfactory.CreateConnection();
+                }
+
+                return currentConnection;
+            });
+
+            services.AddTransient(factory =>
+            {
+                var connection = factory.GetService<IConnection>();
                 return connection.CreateModel();
             });
         }

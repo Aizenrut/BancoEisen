@@ -38,8 +38,7 @@ namespace BancoEisen.Services
             var pessoa = new Pessoa(informacoes.Nome,
                                     informacoes.Sobrenome,
                                     informacoes.Cpf,
-                                    informacoes.DataNascimento,
-                                    informacoes.Email);
+                                    informacoes.DataNascimento);
 
             await pessoaRepository.PostAsync(pessoa);
 
@@ -56,7 +55,6 @@ namespace BancoEisen.Services
             pessoaSalva.Sobrenome = pessoa.Sobrenome;
             pessoaSalva.Cpf = pessoa.Cpf;
             pessoaSalva.DataNascimento = pessoa.DataNascimento;
-            pessoaSalva.Email = pessoa.Email;
 
             await pessoaRepository.UpdateAsync(pessoaSalva);
         }

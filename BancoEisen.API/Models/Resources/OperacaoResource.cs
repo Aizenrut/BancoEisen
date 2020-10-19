@@ -6,11 +6,16 @@ namespace BancoEisen.API.Models
 {
     public class OperacaoResource
     {
-        public int Id { get; }
-        public decimal Valor { get; }
+        public int Id { get; set; }
+        public decimal Valor { get; set; }
         public string TipoOperacao { get; set; }
         public string Observacao { get; set; }
         public DateTime DataEfetivacao { get; set; }
+
+        public OperacaoResource()
+        {
+
+        }
 
         public OperacaoResource(Operacao operacao)
         {

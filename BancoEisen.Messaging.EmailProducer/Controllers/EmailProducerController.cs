@@ -34,6 +34,8 @@ namespace BancoEisen.Messaging.EmailProducer.Controllers
                                  basicProperties: null,
                                  body: bytes);
 
+            channel.Dispose();
+
             logger.LogInformation($"Enfileirado \"{email.Assunto}\" para {email.Para}");
 
             return Ok();
