@@ -51,10 +51,17 @@ namespace BancoEisen.Services
 
             var pessoaSalva = pessoaRepository.Get(pessoa.Id);
 
-            pessoaSalva.Nome = pessoa.Nome;
-            pessoaSalva.Sobrenome = pessoa.Sobrenome;
-            pessoaSalva.Cpf = pessoa.Cpf;
-            pessoaSalva.DataNascimento = pessoa.DataNascimento;
+            if (!string.IsNullOrWhiteSpace(pessoa.Nome))
+                pessoaSalva.Nome = pessoa.Nome;
+
+            if (!string.IsNullOrWhiteSpace(pessoa.Sobrenome))
+                pessoaSalva.Sobrenome = pessoa.Sobrenome;
+
+            if (!string.IsNullOrWhiteSpace(pessoa.Cpf))
+                pessoaSalva.Cpf = pessoa.Cpf;
+
+            if (pessoa.DataNascimento != default)
+                pessoaSalva.DataNascimento = pessoa.DataNascimento;
 
             await pessoaRepository.UpdateAsync(pessoaSalva);
         }
