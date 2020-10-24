@@ -17,5 +17,13 @@ namespace BancoEisen.Models.Informacoes
         [MaxLength(100)]
         [DataType(DataType.MultilineText)]
         public string Observacao { get; set; }
+
+        public OperacaoBinariaInformacoes(int contaOrigemId, int contaDestinoId, decimal valor, string observacao = "")
+        {
+            ContaOrigemId = contaOrigemId;
+            ContaDestinoId = contaDestinoId;
+            Valor = valor;
+            Observacao = observacao;
+        }
     }
 }

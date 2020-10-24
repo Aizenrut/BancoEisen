@@ -83,7 +83,7 @@ namespace BancoEisen.Services
         private void ValidarConta(Conta conta)
         {
             if (conta == null)
-                throw new ArgumentException("A conta informada é inválida.");
+                throw new ArgumentNullException("A conta informada é inválida.");
 
             ValidarId(conta.Id);
         }

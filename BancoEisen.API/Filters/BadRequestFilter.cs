@@ -9,7 +9,9 @@ namespace BancoEisen.API.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            if (context.Exception is ArgumentException || context.Exception is InvalidOperationException)
+            if (context.Exception is ArgumentException || 
+                context.Exception is ArgumentNullException ||
+                context.Exception is InvalidOperationException)
             {
                 context.Result = new ObjectResult(ErrorResponse.From(context.Exception)) { StatusCode = 400 };
                 context.ExceptionHandled = true;

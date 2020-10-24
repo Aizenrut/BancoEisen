@@ -84,7 +84,7 @@ namespace BancoEisen.Services
         private void ValidarPessoa(Pessoa pessoa)
         {
             if (pessoa == null)
-                throw new ArgumentException("A pessoa informada é inválida.");
+                throw new ArgumentNullException("A pessoa informada é inválida.");
 
             ValidarId(pessoa.Id);
         }

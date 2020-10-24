@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mssql-2017", "mssql-2017", 
 		Docker\mssql-2017\Dockerfile = Docker\mssql-2017\Dockerfile
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoEisen.Services.Tests", "BancoEisen.Services.Tests\BancoEisen.Services.Tests.csproj", "{3948D0BC-CF35-406A-B028-B4F8AD3EDC40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DFE2D34-634A-432B-8DAA-59D77DC0FA60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3948D0BC-CF35-406A-B028-B4F8AD3EDC40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3948D0BC-CF35-406A-B028-B4F8AD3EDC40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3948D0BC-CF35-406A-B028-B4F8AD3EDC40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3948D0BC-CF35-406A-B028-B4F8AD3EDC40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

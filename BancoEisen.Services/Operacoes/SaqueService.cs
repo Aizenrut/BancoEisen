@@ -19,9 +19,9 @@ namespace BancoEisen.Services
         private readonly IOrdenacaoService<Operacao> ordenacaoService;
 
         public SaqueService(IContaRepository contaRepository,
-                               IOperacaoRepository operacaoRepository,
-                               IFiltragemService<Operacao, SaqueFiltro> filtragemService,
-                               IOrdenacaoService<Operacao> ordenacaoService)
+                            IOperacaoRepository operacaoRepository,
+                            IFiltragemService<Operacao, SaqueFiltro> filtragemService,
+                            IOrdenacaoService<Operacao> ordenacaoService)
         {
             this.contaRepository = contaRepository;
             this.operacaoRepository = operacaoRepository;
@@ -29,7 +29,7 @@ namespace BancoEisen.Services
             this.ordenacaoService = ordenacaoService;
         }
 
-        public Operacao[] Todos(SaqueFiltro filtro, Ordem ordem)
+        public Operacao[] Todos(SaqueFiltro filtro = null, Ordem ordem = null)
         {
             var query = operacaoRepository.All();
             query = filtragemService.Filtrar(query, filtro);

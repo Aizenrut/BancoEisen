@@ -14,27 +14,27 @@ namespace BancoEisen.Services
     {
         private readonly IContaRepository contaRepository;
         private readonly IOperacaoRepository operacaoRepository;
-        private readonly IDepositoService depositoController;
-        private readonly ISaqueService saqueController;
+        private readonly IDepositoService depositoService;
+        private readonly ISaqueService saqueService;
         private readonly IFiltragemService<Operacao, TransferenciaFiltro> filtragemService;
         private readonly IOrdenacaoService<Operacao> ordenacaoService;
 
         public TransferenciaService(IContaRepository contaRepository,
-                                       IOperacaoRepository operacaoRepository,
-                                       IDepositoService depositoController,
-                                       ISaqueService saqueController,
-                                       IFiltragemService<Operacao, TransferenciaFiltro> filtragemService,
-                                       IOrdenacaoService<Operacao> ordenacaoService)
+                                    IOperacaoRepository operacaoRepository,
+                                    IDepositoService depositoService,
+                                    ISaqueService saqueService,
+                                    IFiltragemService<Operacao, TransferenciaFiltro> filtragemService,
+                                    IOrdenacaoService<Operacao> ordenacaoService)
         {
             this.contaRepository = contaRepository;
             this.operacaoRepository = operacaoRepository;
-            this.depositoController = depositoController;
-            this.saqueController = saqueController;
+            this.depositoService = depositoService;
+            this.saqueService = saqueService;
             this.filtragemService = filtragemService;
             this.ordenacaoService = ordenacaoService;
         }
 
-        public Operacao[] Todos(TransferenciaFiltro filtro, Ordem ordem)
+        public Operacao[] Todos(TransferenciaFiltro filtro = null, Ordem ordem = null)
         {
             var query = operacaoRepository.All();
             query = filtragemService.Filtrar(query, filtro);
@@ -52,13 +52,13 @@ namespace BancoEisen.Services
         {
             ValidarInformacoes(informacoes);
 
-            await saqueController.Efetivar(new OperacaoUnariaInformacoes(informacoes.ContaOrigemId,
+            await saqueService.Efetivar(new OperacaoUnariaInformacoes(informacoes.ContaOrigemId,
+                                                                      informacoes.Valor,
+                                                                      informacoes.Observacao));
+
+            await depositoService.Efetivar(new OperacaoUnariaInformacoes(informacoes.ContaDestinoId,
                                                                          informacoes.Valor,
                                                                          informacoes.Observacao));
-
-            await depositoController.Efetivar(new OperacaoUnariaInformacoes(informacoes.ContaDestinoId,
-                                                                            informacoes.Valor,
-                                                                            informacoes.Observacao));
 
             var transferencia = new Transferencia(informacoes.Valor, informacoes.Observacao);
             await operacaoRepository.PostAsync(transferencia);
