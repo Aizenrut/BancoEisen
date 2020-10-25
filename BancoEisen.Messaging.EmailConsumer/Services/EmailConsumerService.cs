@@ -59,7 +59,7 @@ namespace BancoEisen.Messaging.EmailConsumer.Services
 
                 channel.BasicAck(eventArgs.DeliveryTag, false);
 
-                logger.LogInformation($"Enviado \"{emailMessage.Assunto}\" para {emailMessage.Para}");
+                logger.LogInformation($"E-mail \"{emailMessage.Assunto}\" enviado para {emailMessage.Para}.");
             }
             catch (Exception e)
             {

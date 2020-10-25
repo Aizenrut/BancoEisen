@@ -11,7 +11,8 @@ namespace BancoEisen.API.Controllers.Operacoes
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class DepositosController : OperacoesControllerTamplate<IDepositoService, OperacaoUnariaInformacoes, DepositoFiltro>
     {
         public DepositosController(IDepositoService servico, IPaginacaoService paginacaoService, IHttpContextAccessor contextAccessor) 

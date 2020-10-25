@@ -36,6 +36,8 @@ namespace BancoEisen.AuthProvider
                 options.Filters.Add<ErrorResponseFilter>();
             }).AddXmlSerializerFormatters();
 
+            services.AddApiVersioning();
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;

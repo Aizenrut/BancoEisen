@@ -12,7 +12,8 @@ namespace BancoEisen.API.Controllers.Entidades
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class PessoasController : CadastrosControllerTemplate<IPessoaService, Pessoa, PessoaInformacoes, PessoaFiltro>
     {
         public PessoasController(IPessoaService servico, IPaginacaoService paginacaoService, IHttpContextAccessor contextAccessor) 
