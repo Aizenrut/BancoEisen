@@ -42,7 +42,7 @@ namespace BancoEisen.AuthProvider.Controllers
         private async Task<IActionResult> TratarSignInResult(SignInResult result, Credenciais credenciais)
         {
             if (result.Succeeded)
-                return Ok(loginService.GerarToken(credenciais.NomeUsuario));
+                return Ok(new { token = loginService.GerarToken(credenciais.NomeUsuario) });
 
             if (result.RequiresTwoFactor)
             {
@@ -62,7 +62,7 @@ namespace BancoEisen.AuthProvider.Controllers
         private IActionResult TratarSignInResult(SignInResult result, CredenciaisDoisFatores credenciais)
         {
             if (result.Succeeded)
-                return Ok(loginService.GerarToken(credenciais.NomeUsuario));
+                return Ok(new { token = loginService.GerarToken(credenciais.NomeUsuario) });
 
             return Unauthorized();
         }

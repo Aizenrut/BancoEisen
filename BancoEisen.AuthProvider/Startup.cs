@@ -43,7 +43,7 @@ namespace BancoEisen.AuthProvider
 
             services.AddDbContext<BancoEisenAuthenticationContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("BancoEisen.Authentication"));
+                options.UseSqlServer(configuration.GetConnectionString("BancoEisen"));
             });
 
             services.AddIdentity<Usuario, IdentityRole>(options =>
@@ -66,7 +66,7 @@ namespace BancoEisen.AuthProvider
 
             services.AddHttpClient<EmailProducerClient>(options =>
             {
-                options.BaseAddress = new Uri("http://localhost:7000/api/");
+                options.BaseAddress = new Uri("http://eisen-producer:80/api/");
             });
 
             services.AddTransient<IEmailService, EmailService>();

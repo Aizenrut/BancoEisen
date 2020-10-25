@@ -1,6 +1,9 @@
 ﻿using BancoEisen.Models.Abstracoes;
 using BancoEisen.Models.Cadastros;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Linq.Expressions;
 
 namespace BancoEisen.Data.Contexts
 {
@@ -12,7 +15,17 @@ namespace BancoEisen.Data.Contexts
 
         public BancoEisenContext(DbContextOptions<BancoEisenContext> options) : base(options)
         {
-            this.Database.EnsureCreated();
+            if (!this.Database.EnsureCreated())
+            {
+                try
+                {
+                    var creator = (RelationalDatabaseCreator)this.Database.GetService<IDatabaseCreator>();
+                    creator.CreateTables();
+                }
+                catch
+                {
+                }
+            }
         }
     }
 }

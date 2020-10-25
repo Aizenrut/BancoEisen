@@ -2,6 +2,7 @@ using BancoEisen.Messaging.EmailConsumer.Services;
 using BancoEisen.Messaging.EmailConsumer.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
@@ -10,13 +11,26 @@ namespace BancoEisen.Messaging.EmailConsumer
 {
     public class Startup
     {
+        private IConfiguration configuration;
         private IConnection currentConnection;
+
+        public Startup(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient(factory =>
+            services.AddSingleton(factory =>
             {
-                return new ConnectionFactory() { HostName = "localhost" };
+                var rabbitMqSection = configuration.GetSection("RabbitMQ");
+
+                return new ConnectionFactory()
+                {
+                    HostName = rabbitMqSection["HostName"],
+                    UserName = rabbitMqSection["UserName"],
+                    Password = rabbitMqSection["Password"]
+                };
             });
 
             services.AddTransient(factory =>

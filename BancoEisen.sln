@@ -19,22 +19,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.Messaging.EmailC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{986744B2-71BF-4B16-9997-658D69E3EFBB}"
 	ProjectSection(SolutionItems) = preProject
-		Docker\docker-compose.yml = Docker\docker-compose.yml
+		BancoEisen.API.Dockerfile = BancoEisen.API.Dockerfile
+		BancoEisen.AuthProvider.Dockerfile = BancoEisen.AuthProvider.Dockerfile
+		BancoEisen.Messaging.EmailConsumer.Dockerfile = BancoEisen.Messaging.EmailConsumer.Dockerfile
+		BancoEisen.Messaging.EmailProducer.Dockerfile = BancoEisen.Messaging.EmailProducer.Dockerfile
+		definitions.json = definitions.json
+		docker-compose.yml = docker-compose.yml
+		MSSQLServer.Dockerfile = MSSQLServer.Dockerfile
+		rabbitmq.config = rabbitmq.config
+		RabbitMQ.Dockerfile = RabbitMQ.Dockerfile
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rabbitmq-server", "rabbitmq-server", "{35AF7873-86E4-4110-B139-7632BE258B5F}"
-	ProjectSection(SolutionItems) = preProject
-		Docker\rabbitmq-server\definitions.json = Docker\rabbitmq-server\definitions.json
-		Docker\rabbitmq-server\Dockerfile = Docker\rabbitmq-server\Dockerfile
-		Docker\rabbitmq-server\rabbitmq.config = Docker\rabbitmq-server\rabbitmq.config
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mssql-2017", "mssql-2017", "{75547B07-8E87-4552-9DCF-312301B8346C}"
-	ProjectSection(SolutionItems) = preProject
-		Docker\mssql-2017\Dockerfile = Docker\mssql-2017\Dockerfile
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoEisen.Services.Tests", "BancoEisen.Services.Tests\BancoEisen.Services.Tests.csproj", "{3948D0BC-CF35-406A-B028-B4F8AD3EDC40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoEisen.Services.Tests", "BancoEisen.Services.Tests\BancoEisen.Services.Tests.csproj", "{3948D0BC-CF35-406A-B028-B4F8AD3EDC40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,10 +73,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{35AF7873-86E4-4110-B139-7632BE258B5F} = {986744B2-71BF-4B16-9997-658D69E3EFBB}
-		{75547B07-8E87-4552-9DCF-312301B8346C} = {986744B2-71BF-4B16-9997-658D69E3EFBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {120635DB-D482-4C22-9A39-B56918BE2E28}

@@ -1,0 +1,84 @@
+version: '3'
+
+services:
+
+  eisen-rabbit:
+    build:
+      context: .
+      dockerfile: RabbitMQ.Dockerfile
+    container_name: eisen-rabbit
+    hostname: eisen-rabbit-server
+    networks:
+    - eisen-net
+    ports:
+    - 5672:5672
+    - 15672:15672
+
+  eisen-sql:
+    build:
+      context: .
+      dockerfile: MSSQLServer.Dockerfile
+    container_name: eisen-sql
+    hostname: eisen-sql-server
+    networks:
+    - eisen-net
+    ports:
+    - 1433:1433
+
+  eisen-auth:
+    build:
+      context: .
+      dockerfile: BancoEisen.AuthProvider.Dockerfile
+    container_name: eisen-auth
+    hostname: eisen-auth-server
+    networks:
+    - eisen-net
+    ports:
+    - 6000:80
+    depends_on:
+    - eisen-sql
+
+  eisen-api:
+    build:
+      context: .
+      dockerfile: BancoEisen.API.Dockerfile
+    container_name: bancoeisen-api
+    hostname: bancoeisen-api-server
+    networks:
+    - eisen-net
+    ports:
+    - 5000:80
+    depends_on:
+    - eisen-sql
+
+  eisen-producer:
+    build:
+      context: .
+      dockerfile: BancoEisen.Messaging.EmailProducer.Dockerfile
+    container_name: eisen-producer
+    hostname: eisen-producer-server
+    networks:
+    - eisen-net
+    ports:
+    - 7000:80
+    depends_on:
+    - eisen-rabbit
+
+  eisen-consumer:
+    build:
+      context: .
+      dockerfile: BancoEisen.Messaging.EmailConsumer.Dockerfile
+    container_name: eisen-consumer
+    hostname: eisen-consumer-server
+    networks:
+    - eisen-net
+    ports:
+    - 8000:80
+    restart: on-failure
+    depends_on:
+    - eisen-rabbit
+
+networks:
+  eisen-net:
+    driver: bridge
+    name: eisen-net
