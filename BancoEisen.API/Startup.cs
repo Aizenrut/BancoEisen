@@ -1,8 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using BancoEisen.API.Filters;
@@ -18,6 +16,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
 using BancoEisen.Services;
+using Microsoft.OpenApi.Models;
+using System.IO;
+using System.Reflection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BancoEisen.API
 {
@@ -52,7 +54,7 @@ namespace BancoEisen.API
             });
 
             var schemesSection = configuration.GetSection("Schemes");
-
+            
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = schemesSection["Authentication"];
@@ -99,17 +101,46 @@ namespace BancoEisen.API
             services.AddTransient<IOrdenacaoService<Operacao>, OrdenacaoService<Operacao>>();
 
             services.AddTransient<IPaginacaoService, PaginacaoService>();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1.0", new OpenApiInfo
+                {
+                    Title = "API do Banco Eisen",
+                    Version = "1.0",
+                    Description = "API utilizada para realizar operações do banco."
+                });
+
+                options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Description = "Autenticação utilizando o esquema Bearer. Ex.: Bearer {token}",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme,
+                    BearerFormat = "JWT"
+                });
+
+                options.OperationFilter<AddJwtBearerAuthOperationFilter>();
+
+                var arquivo = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var caminho = Path.Combine(AppContext.BaseDirectory, arquivo);
+                options.IncludeXmlComments(caminho);
+            });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            app.UseAuthentication();
-            app.UseMvc();
-
-            if (env.IsDevelopment())
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
             {
-                app.UseDeveloperExceptionPage();
-            }
+                options.SwaggerEndpoint("/Swagger/v1.0/swagger.json", "Versão 1.0");
+                options.RoutePrefix = string.Empty;
+            });
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseMvc();
         }
     }
 }

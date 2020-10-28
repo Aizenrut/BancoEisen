@@ -10,9 +10,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Linq;
 using BancoEisen.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BancoEisen.API.Controllers.Templates
 {
+    [Authorize]
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiExplorerSettings(GroupName = "v1.0")]
+    [Consumes("application/json", "text/json")]
+    [Produces("application/json", "text/json", "application/xml", "text/xml")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
     public abstract class OperacoesControllerTamplate<TServico, TInformacoes, TFiltro> : ControllerBase, IOperacoesController<TInformacoes, TFiltro>
         where TServico : IOperacaoService<TInformacoes, TFiltro>
         where TInformacoes : struct
@@ -29,7 +39,11 @@ namespace BancoEisen.API.Controllers.Templates
             this.contextAccessor = contextAccessor;
         }
 
+        /// <summary>
+        /// Obtém todas as operações existentes.
+        /// </summary>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Pagina))]
         public IActionResult Todos([FromQuery] TFiltro filtro,
                                    [FromQuery] Ordem ordem,
                                    [FromQuery] Paginacao paginacao)
@@ -40,7 +54,12 @@ namespace BancoEisen.API.Controllers.Templates
             return Ok(paginacaoService.GerarPagina(contextAccessor.HttpContext.GetRouteData().Values["controller"].ToString(), todos, paginacao));
         }
 
+        /// <summary>
+        /// Busca os dados de uma operação.
+        /// </summary>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Consultar(int id)
         {
             var operacao = servico.Consultar(id);
@@ -51,7 +70,11 @@ namespace BancoEisen.API.Controllers.Templates
             return Ok(operacao.ToResource());
         }
 
+        /// <summary>
+        /// Efetiva a operação.
+        /// </summary>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Efetivar(TInformacoes operacaoInformacoes)
         {
             if (!ModelState.IsValid)

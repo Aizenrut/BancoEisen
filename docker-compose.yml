@@ -1,5 +1,11 @@
 version: '3'
 
+networks:
+
+  eisen-net:
+    driver: bridge
+    name: eisen-net
+
 services:
 
   eisen-rabbit:
@@ -34,7 +40,7 @@ services:
     networks:
     - eisen-net
     ports:
-    - 6000:80
+    - 6001:80
     depends_on:
     - eisen-sql
 
@@ -42,12 +48,12 @@ services:
     build:
       context: .
       dockerfile: BancoEisen.API.Dockerfile
-    container_name: bancoeisen-api
-    hostname: bancoeisen-api-server
+    container_name: eisen-api
+    hostname: eisen-api-server
     networks:
     - eisen-net
     ports:
-    - 5000:80
+    - 5001:80
     depends_on:
     - eisen-sql
 
@@ -77,8 +83,3 @@ services:
     restart: on-failure
     depends_on:
     - eisen-rabbit
-
-networks:
-  eisen-net:
-    driver: bridge
-    name: eisen-net
